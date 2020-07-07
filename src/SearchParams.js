@@ -3,8 +3,8 @@ import pet, { ANIMALS } from "@frontendmasters/pet";
 import useDropdown from "./useDropdown";
 import Results from "./Results";
 
-console.log(pet);
-console.log(ANIMALS);
+//console.log(pet);       //THIS IS AN OBJECT WITH ANIMALS IN IT WITH BREED AND SEVERAL OTHER FUNCTIONS
+//console.log(ANIMALS);   //This is an array of different types of animals.
 const SearchParams = () => {
   const [location, updateLocation] = useState("Seattle, WA");
   const [breeds, updateBreeds] = useState([]);
@@ -16,10 +16,11 @@ const SearchParams = () => {
     const { animals } = await pet.animals({
       location,
       breed,
-      type: animal,
+      type: animal
     });
+    console.log("The  updated animals are: ", animals);
 
-    console.log("animals", animals);
+    //console.log("animals", animals);
 
     setPets(animals || []);
   }
@@ -27,10 +28,14 @@ const SearchParams = () => {
   useEffect(() => {
     updateBreeds([]);
     updateBreed("");
+    //console.log("useEffect rendered.");
+    //console.log("The animal is: ", animal);
 
     pet.breeds(animal).then(({ breeds }) => {
-      console.log("The breed in here is: ", breeds);
+      //then operator returns anything that the object returns. so breeds is an array of different breed objects
+      //console.log("The breed in here is: ", breeds);
       const breedStrings = breeds.map(({ name }) => name);
+      //console.log("The breeds are: ", breedStrings); //breeds.map(({name})) means that inside a function the  var name is assigned a value that is equal to the name parameter of the object.
       updateBreeds(breedStrings);
     }, console.error);
   }, [animal]);
@@ -38,7 +43,7 @@ const SearchParams = () => {
   return (
     <div className="search-params">
       <form
-        onSubmit={(e) => {
+        onSubmit={e => {
           e.preventDefault();
           requestPets();
         }}
@@ -49,7 +54,7 @@ const SearchParams = () => {
             id="location"
             value={location}
             placeholder="Location"
-            onChange={(e) => updateLocation(e.target.value)}
+            onChange={e => updateLocation(e.target.value)}
           />
         </label>
         <AnimalDropdown />
