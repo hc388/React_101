@@ -1,16 +1,10 @@
 import React from "react";
 import pet from "@frontendmasters/pet";
+import Carousel from "./Carousel";
 
 class Details extends React.Component {
   // cannot use hooks inside a class.
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // changes when setState changes.
-      loading: true
-    };
-  }
+  state = { loading: true };
   componentDidMount() {
     pet
       .animal(this.props.id) //props is a read-only. comes from parent
@@ -30,16 +24,17 @@ class Details extends React.Component {
   }
   render() {
     if (this.state.loading) {
-      return <h1>loading...</h1>;
+      return <h1>loading...</h1>; //this will print loading when grabbing data from the API. Initially we have marked loading as true in state header.
     }
-    const { animal, breed, location, description, name } = this.state;
+    const { animal, breed, location, description, name, media } = this.state;
     return (
       <div className="details">
+        <Carousel media={media} />
         <div>
           <h1>{name}</h1>
           <h2>{`${animal} - ${breed} - ${location}`}</h2>
           <button>Adopt {name}</button>
-          <p>{description}</p>
+          <p style={{ textAlign: "center" }}>{description}</p>
         </div>
       </div>
     );
